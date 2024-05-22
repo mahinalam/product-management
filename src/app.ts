@@ -1,15 +1,14 @@
-import express, { Application, Request, Response } from 'express'
+import express, { Application } from 'express'
 import cors from 'cors'
+import { productRoute } from './app/modules/product/product.route'
+import { orderRoute } from './app/modules/order/order.route'
 const app: Application = express()
-const port = 5000
 
 //parsers
 app.use(express.json())
 app.use(cors())
 
-app.get('/', (req: Request, res: Response) => {
-  const name = 10
-  res.send(name)
-})
+app.use('/api/products', productRoute)
+app.use('/api/orders', orderRoute)
 
 export default app
