@@ -1,5 +1,3 @@
-
-
 export interface IOrder {
   email: string
   productId: string

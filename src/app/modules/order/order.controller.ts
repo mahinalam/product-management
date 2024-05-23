@@ -74,5 +74,5 @@ export const orderController = {
   createOrder,
   getOrderedByEmail,
   getAllOrders,
-  notFoundRoute
+  notFoundRoute,
 }

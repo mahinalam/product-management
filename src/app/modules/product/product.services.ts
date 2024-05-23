@@ -26,18 +26,18 @@ const updateProductFromDB = async (id: string, price: number) => {
     { price: price + 10 },
   )
   // const updatedDoc = await Product.findById(id)
-  return  findDoc
+  return findDoc
 }
 
 const deleteProductFromDB = async (id: string) => {
   const result = await Product.deleteOne({ _id: id })
   return result
-};
+}
 
-const searchProductFromDB = async(searchTerm: string) => {
-    const regex = new RegExp(searchTerm, 'i')
-    const products = await Product.find({name: regex})
-    return products
+const searchProductFromDB = async (searchTerm: string) => {
+  const regex = new RegExp(searchTerm, 'i')
+  const products = await Product.find({ name: regex })
+  return products
 }
 
 export const productServices = {
@@ -46,5 +46,5 @@ export const productServices = {
   getSingleProductFromDB,
   deleteProductFromDB,
   updateProductFromDB,
-  searchProductFromDB
+  searchProductFromDB,
 }

@@ -28,26 +28,21 @@ const orderSchema = new Schema<IOrder>({
 })
 
 orderSchema.pre('save', async function (next) {
-
-   try{
+  try {
     const product: any = await Product.findById({ _id: this.productId })
     console.log('product from', product)
-  
+
     if (!product) {
       return next(new Error('Product not found'))
     }
-  
+
     if (this.quantity > product?.inventory.quantity) {
       return next(new Error('Insufficient quantity available in inventory'))
     }
     next()
-  
-   }catch(err){
-    throw new Error("Failed to create Order!");
-    
-   }
-
-
+  } catch (err) {
+    throw new Error('Failed to create Order!')
+  }
 })
 
 // Post-save middleware to update inventory
