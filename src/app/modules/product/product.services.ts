@@ -16,7 +16,7 @@ const getAllProductsFromDB = async () => {
 }
 
 const getSingleProductFromDB = async (id: string) => {
-  const result = await Product.findOne({ _id: id })
+  const result = await Product.findById({ _id: id })
   return result
 }
 
@@ -25,8 +25,8 @@ const updateProductFromDB = async (id: string, price: number) => {
     { _id: id },
     { price: price + 10 },
   )
-  const updatedDoc = await Product.findById(id)
-  return { findDoc, updatedDoc }
+  // const updatedDoc = await Product.findById(id)
+  return  findDoc
 }
 
 const deleteProductFromDB = async (id: string) => {

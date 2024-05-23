@@ -4,14 +4,13 @@ import ZodProductSchema from './product.validation'
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product } = req.body
+    const product = req.body
     const zodParseData = ZodProductSchema.parse(product)
-    console.log(zodParseData)
     const result = await productServices.createProductIntoDB(zodParseData)
     if (result) {
       res.status(200).json({
         success: true,
-        message: 'Product is created successfully',
+        message: 'Product created successfully',
         data: result,
       })
     }
@@ -51,7 +50,6 @@ const getSingleProduct = async (req: Request, res: Response) => {
     const result = await productServices.getSingleProductFromDB(
       req.params.productId,
     )
-    console.log(result)
     if (result) {
       res.status(200).json({
         success: true,
@@ -70,17 +68,17 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
   try {
     const updatedData = req.body
-    const { updatedDoc } = await productServices.updateProductFromDB(
+    const findDoc = await productServices.updateProductFromDB(
       req.params.productId,
       updatedData.price,
     )
     // console.log('id from product controller', req.params.id)
 
-    if (updatedDoc) {
+    if (findDoc) {
       res.status(200).json({
         success: true,
         message: 'Product Updated successfully!',
-        data: updatedDoc,
+        data: findDoc,
       })
     }
   } catch (err) {
@@ -97,19 +95,22 @@ const deleteProduct = async (req: Request, res: Response) => {
     const result = await productServices.deleteProductFromDB(
       req.params.productId,
     )
-    console.log(result)
-    if (result) {
+    console.log('deletd', result)
+
+    if (result.deletedCount > 0) {
       res.status(200).json({
         success: true,
         message: 'Product deleted successfully!',
         data: null,
       })
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'Failed to delete product!',
+      })
     }
   } catch (err) {
-    res.status(404).json({
-      success: false,
-      message: 'Failed to delete product!',
-    })
+    console.log(err)
   }
 }
 
@@ -118,10 +119,11 @@ const searchProduct = async (req: Request, res: Response) => {
   try {
     const query: any = req.query.searchTerm
     const result = await productServices.searchProductFromDB(query)
-    if (result) {
+    console.log('result from seach product', result)
+    if (result && result.length > 0) {
       res.status(200).json({
         success: true,
-        message: "Products matching search term 'iphone' fetched successfully!",
+        message: `Products matching search term ${query} fetched successfully!`,
         data: result,
       })
     }

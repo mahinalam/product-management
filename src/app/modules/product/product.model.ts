@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose'
-// import { z } from 'zod'
 import {
   IInventory,
   IProduct,
@@ -73,5 +72,6 @@ productSchema.statics.isProductExists = async function (name: string) {
   const existingProduct = await Product.findOne({ name: name })
   return existingProduct
 }
+
 
 export const Product = model<IProduct, ProductModel>('Product', productSchema)
